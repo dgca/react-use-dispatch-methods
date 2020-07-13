@@ -9,7 +9,7 @@ export function useDispatchMethods(methods, initialState, init) {
     init
   );
 
-  const actions = Object.keys(methods).reduce((acc, type) => {
+  const builtDispatch = Object.keys(methods).reduce((acc, type) => {
     acc[type] = payload =>
       dispatch({
         type,
@@ -18,5 +18,5 @@ export function useDispatchMethods(methods, initialState, init) {
     return acc;
   }, {});
 
-  return [state, actions];
+  return [state, builtDispatch];
 }
