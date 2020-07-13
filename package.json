@@ -1,6 +1,6 @@
 {
   "name": "@dgca/react-use-dispatch-methods",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Abstraction over useReducer to make writing reducer functions easier, cleaner, and more grokkable.",
   "author": "dgca",
   "license": "MIT",
