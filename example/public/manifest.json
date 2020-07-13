@@ -1,0 +1,8 @@
+{
+  "short_name": "@dgca/react-use-dispatch-methods",
+  "name": "@dgca/react-use-dispatch-methods",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
