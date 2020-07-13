@@ -1,21 +1,22 @@
-import * as React from 'react'
+import { useReducer } from 'react'
 
-export const useMyHook = () => {
-  let [{
-    counter
-  }, setState] = React.useState({
-    counter: 0
-  })
+export function useDispatchMethods(methods, initialState, init) {
+  const [state, dispatch] = useReducer(
+    (state, { type, payload }) => {
+      return methods[type]({ state, payload });
+    },
+    initialState,
+    init
+  );
 
-  React.useEffect(() => {
-    let interval = window.setInterval(() => {
-      counter++
-      setState({counter})
-    }, 1000)
-    return () => {
-      window.clearInterval(interval)
-    }
-  }, [])
+  const actions = Object.keys(methods).reduce((acc, type) => {
+    acc[type] = payload =>
+      dispatch({
+        type,
+        payload
+      });
+    return acc;
+  }, {});
 
-  return counter
+  return [state, actions];
 }
