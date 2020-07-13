@@ -16,11 +16,12 @@ npm install --save @dgca/react-use-dispatch-methods
 
 ## Usage
 
-`useDispatchMethods(methods, initialState, init)` takes three arguments:
+`useDispatchMethods(methods, initialState, init, dependencyArray)` takes four arguments:
 
 * `methods` - An object of pure functions. Each function's name will be the name you use to update the state later on. Each function will receive an object of `{state, payload}` as its argument, where `state` is the current state, and `payload` is the payload that was passed to the state (if an argument was passed).
 * `initialState` - The initial value of our state. See React's [docs](https://reactjs.org/docs/hooks-reference.html#specifying-the-initial-state) on specifying the initial state.
 * `init` - See React's [docs](https://reactjs.org/docs/hooks-reference.html#lazy-initialization) on lazy initialization.
+* `dependencyArray` - To avoid recreating the underlying objects that make this hook work, we memoize a couple things using `useMemo` and `useCallback`. If you _must_ modify your `methods`, pass a `dependencyArray` and we'll forward that onto `useMemo` and `useCallback`.
 
 `useDispatchMethods` returns an array of `[state, dispatch]` where `state` is the current state, and `dispatch` is an object of methods to use to update the state.
 

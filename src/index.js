@@ -1,22 +1,31 @@
-import { useReducer } from 'react'
+import { useReducer, useMemo, useCallback } from "react";
 
-export function useDispatchMethods(methods, initialState, init) {
-  const [state, dispatch] = useReducer(
-    (state, { type, payload }) => {
-      return methods[type]({ state, payload });
-    },
-    initialState,
-    init
+export function useDispatchMethods(
+  methods,
+  initialState,
+  init,
+  dependencyArray = []
+) {
+  const reducer = useCallback((state, { type, payload }) => {
+    return methods[type]({ state, payload });
+  }, dependencyArray);
+
+  const [state, dispatch] = useReducer(reducer, initialState, init);
+
+  const builtDispatch = useMemo(
+    () =>
+      Object.keys(methods).reduce((acc, type) => {
+        acc[type] = (payload) => {
+          dispatch({
+            type,
+            payload,
+          });
+        };
+
+        return acc;
+      }, {}),
+    dependencyArray
   );
-
-  const builtDispatch = Object.keys(methods).reduce((acc, type) => {
-    acc[type] = payload =>
-      dispatch({
-        type,
-        payload
-      });
-    return acc;
-  }, {});
 
   return [state, builtDispatch];
 }
